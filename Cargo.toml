@@ -1,0 +1,15 @@
+[package]
+name = "vst"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "lib.rs"
+crate-type = ["staticlib"]
+
+[build-dependencies]
+slint-build = "1.16.1"
+
+[dependencies]
+paste = "1.0.15"
+slint = "1.16.1"
