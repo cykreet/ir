@@ -5,6 +5,7 @@
 		{ "name": "vendor", "path": "/home/linuxbrew/.linuxbrew/Cellar/odin/2026-05/libexec/vendor" },
 		{ "name": "shared", "path": "/home/linuxbrew/.linuxbrew/Cellar/odin/2026-05/libexec/shared" },
 		{ "name": "base", "path": "/home/linuxbrew/.linuxbrew/Cellar/odin/2026-05/libexec/base" },
+		{ "name": "deps", "path": "/home/jaden/projects/ir/deps" }
 	],
 	"enable_semantic_tokens": false,
 	"enable_document_symbols": true,
