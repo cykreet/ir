@@ -21,8 +21,14 @@ when ODIN_OS == .Windows {
 	}
 }
 
+IncreasePressedCallback :: #type proc "c" (h: rawptr)
+
 @(default_calling_convention="c")
 foreign lib {
-	app_new :: proc() -> rawptr ---
-	app_run :: proc(h: rawptr) ---
+	app_new					:: proc() -> rawptr ---
+	app_run					:: proc(h: rawptr) ---
+
+	app_get_counter			:: proc(h: rawptr) -> i32 ---
+	app_set_counter			:: proc(h: rawptr, value: i32) ---
+	app_on_increase_pressed	:: proc(h: rawptr, callback: IncreasePressedCallback) ---
 }

@@ -1,5 +1,6 @@
 package main
 
+import "core:time"
 import "core:os"
 import "core:fmt"
 
@@ -28,10 +29,16 @@ copy_file :: proc(src, dest: string) -> bool {
 	}
 
 	defer delete(data)
-	return os.write_entire_file(dest, data) != nil
+	if err := os.write_entire_file(dest, data); err != nil {
+		fmt.eprintfln("%v", err)
+		return false
+	}
+
+	return true
 }
 
 main :: proc() {
+	start := time.now()
 	os.make_directory("lib")
 
 	if !run_cmd([]string{ "cargo", "build", "--release" }) {
@@ -40,14 +47,16 @@ main :: proc() {
 	}
 
 	if !copy_file("target/release/libvst.a", "lib/libvst.a") {
+		fmt.eprintfln("error: failed to copy cargo build to lib")
 		os.exit(1)
 	}
 
-	if !run_cmd([]string{ "odin", "build", "src", "-out:build/ir" }) {
+	if !run_cmd([]string{ "odin", "build", "src", "-collection:deps=./deps", "-out:build/ir" }) {
 		fmt.eprintfln("error: odin build failed")
 		os.exit(1)
 	}
 
-	fmt.println("build complete")
+	build_time := time.since(start)
+	fmt.printfln("build completed in %f seconds", time.duration_seconds(build_time))
 }
 

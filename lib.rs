@@ -36,8 +36,8 @@ macro_rules! expose_callback {
     ($App:ty, $prefix:ident, $cb:ident) => {
         paste! {
             #[unsafe(no_mangle)]
-            pub extern "C" fn [<$prefix _on_ $cb>](h: *const c_void, f: extern "C" fn()) {
-                unsafe { (&*(h as *const $App)).[<on_ $cb>](move || f()) };
+            pub extern "C" fn [<$prefix _on_ $cb>](h: *const c_void, f: extern "C" fn(h: *const c_void)) {
+                unsafe { (&*(h as *const $App)).[<on_ $cb>](move || f(&*(h as *const c_void))) };
             }
         }
     };
@@ -56,7 +56,5 @@ pub extern "C" fn app_run(h: *mut c_void) {
 }
 
 expose_i32_property!(App, app, counter);
-// expose_string_property!(App, app, username);
-// expose_callback!(App, app, submit_clicked);
+expose_callback!(App, app, increase_pressed);
 
-// include!("generated.rs");
